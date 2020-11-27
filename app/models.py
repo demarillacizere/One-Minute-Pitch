@@ -8,7 +8,7 @@ from datetime import datetime
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-class Pitch(db.model):
+class Pitch(db.Model):
     '''
     Movie class to define Movie Objects
     '''
