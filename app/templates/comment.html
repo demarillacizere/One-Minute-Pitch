@@ -3,27 +3,21 @@
 
 {% block content %}
 <div>
-    <div class="col-md-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">Pitch</div>
-            <div class="panel-body">
+    <div style="margin:0 auto"class="col-md-8">
+            <div class="card">{{pitch.title}}</div><br>
+            <div class="card-body">
                 <p>{{ pitch.content }}</p>
                 <p><strong>by: {{ pitch.user.username }}</strong></p>
             </div>
-            <div class="card p-5 bg-info">
+            <div>
+                {% for comment in comments %}
+                    <span>{{ comment.comment }}</span><br>
+                    <span><strong>By:{{ comment.user.username }}</strong> &NonBreakingSpace;&nbsp;{{comment.posted.strftime('%b %d, %Y')}}</span><br><br>
+                {% endfor %}
+            </div>
+            <div>
                 {{wtf.quick_form(comment_form)}}
             </div>
-        </div>
-        <div>
-            <h1>Comments</h1>
-            {% for comment in comments %}
-            <div class="panel panel-default">
-                <div class="panel-body">
-                <p>Comment By:{{ comment.user.username }}</p>
-                <p>{{ comment.comment }}</p>
-            </div>
-            </div>
-            {% endfor %}
         </div>
     </div>
     </div>

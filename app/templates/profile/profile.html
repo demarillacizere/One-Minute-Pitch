@@ -3,17 +3,6 @@
 {% block content %}
 <div class="container">
 <div class="row">
-<!-- displaying  Username-->
-  <div class="col-md-4">
-    <h3> {{user.username| capitalize}} </h3>
-
-    <!--Displaying user bio-->
-    {% if user.bio %}
-      <p> {{user.bio}}</p>
-    {%else%}
-      <p> {{user.username| capitalize}} has no bio </p>
-    {% endif %}
-  </div>
 
   <!--Display profile photo-->
   <div class="col-md-4">
@@ -29,11 +18,68 @@
         {% if user == current_user %}
     <form  action="{{url_for('main.update_pic',uname=user.username)}}" method="post" enctype = "multipart/form-data">
 
-      <input type="file"  name="photo" class="form-control" required>
-      <input type="submit">
+      <input class='form-control' type="file"  name="photo" class="form-control" required>
+      <button class='btn btn-info form-control' type="submit">Submit</button><br><br>
+      <button class='btn btn-success form-control'><a href="{{url_for('main.update_profile',uname=user.username)}}">Edit profile</a></button>
     </form>
       {% endif %}
   </div>
-  <a href="{{url_for('main.update_profile',uname=user.username)}}">Edit profile</a>
+  <div class="col-md-7">
+    <table class="table table-striped table-light">
+      <tbody>
+        <h2><h3> {{user.username| capitalize}} </h3></h2>
+      <tr>
+        <th scope="row">Bio:</th>
+          <td>{% if user.bio %}
+            {{user.bio}}
+          {%else%}
+            {{user.username| capitalize}} has no bio
+          {% endif %}</td>
+      </tr>
+      <tr>
+        <th scope="row">Pitches</th>
+        <td>{{pitches_no.count(user.id)}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Likes</th>
+        <td>{{likes_no}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Dislikes</th>
+        <td>{{likes_no}}</td>
+      </tr>
+     
+      <tr>
+        <th scope="row">Comments</th>
+        <td>{{comments_no.count(comment)}}</td>
+      </tr>
+      </tbody>
+    </table><hr>
+    <div>
+      <h3>Pitches</h3>
+      {% if pitches_no %}
+		{% for pitch in pitches_no %}
+		<div class="col-md-4">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">{{pitch.title}}</h4><hr>
+					<p class="card-text">{{pitch.content}}</p>
+                    <p>Posted on {{pitch.posted.strftime('%b %d, %Y')}} by {{pitch.user.username| capitalize}}</p>
+					<div class='card-footer'>
+						<a href="{{url_for('main.comment',pitch_id = pitch.id)}}"><span><i class="fa fa-comment"></i>{{pitch.comments.count()}}</span></a>&nbsp;
+						<span><a href="{{url_for('main.like',pitch_id = pitch.id)}}"><i class="fa fa-thumbs-up"></i></a>{{pitch.likes.count()}}</span>&nbsp;
+						<span><a href="{{url_for('main.dislike',pitch_id = pitch.id)}}"><i class="fa fa-thumbs-down"></i></a>{{pitch.likes.count()}}</span>&nbsp;
+					</div>
+				</div>
+            </div>
+    </div>
+		{% endfor %}
+		{% else %}
+		<a href="{{url_for('main.new_pitch')}}">Add your first pitch</a>
+		{% endif %}
+    </div>
+  </div>
 </div>
+</div>
+
 {% endblock %}

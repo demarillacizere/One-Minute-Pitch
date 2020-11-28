@@ -9,12 +9,29 @@
     <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Cormorant+Upright" rel="stylesheet">
     <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
-{%endblock%}
+{% endblock %}
 {% block content %}
-<a href="{{url_for('main.new_pitch')}}">Add your pitch</a>
+<div class='container'>
+  <button class="btn btn-outline-info"><a href="{{url_for('main.new_pitch')}}"><i class="fas fa-plus"></i>  Add your pitch</a></button></br><br>
 
-
-
+<div class='row'>
+  <div class='col-md-3'>
+    <div class='card' style='border-color:solid 1px '>
+      <p><a href="{{url_for('main.pitch_general')}}">General</a></p><hr>
+      <p><a href="{{url_for('main.pitch_interview')}}">Interview</a></p><hr>
+      <p><a href="{{url_for('main.pitch_advertisement')}}">Advertisement</a></p><hr>
+      <p><a href="{{url_for('main.pitch_project')}}">Projects</a></p><hr>
+      <p><a href="{{url_for('main.pitch_pickupline')}}">Pickup Lines</a></p><hr>
+      
+    </div>
+  </div>
+  <div class='col-md-6'>
+    <p>In life, you only have 60 seconds to impress someone. 1 minute can make or break you. How do we make sure that you use your 1 minute to actually say something meaningful?</p><br>
+    <p>WE have created this app for you so that you can add your pitches and let your colleuges leave a feedback for you on what you can improve on them.</p><br>
+    <p>Our collections is in different categories. Add your pitch and read our user's brilliant pitches. Don't forget to leave a feedback !</p><br>
+  </div>
+</div>  
+{% endblock %}  
 <div class="container mb-5">
     <h3 class="text-center p-4 text-uppercase"><strong>Created Pitches</strong></h3>
 <div id="accordion" class="bg-info">
@@ -85,4 +102,4 @@
       </div>
   </div>
   </div>
-{% endblock %}
+</div>

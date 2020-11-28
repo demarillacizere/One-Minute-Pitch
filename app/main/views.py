@@ -7,17 +7,59 @@ from .. import db, photos
 
 @main.route('/')
 def index():
-    pitches = Pitch.query.all()
+    # pitches = Pitch.query.all()
+    # general = Pitch.query.filter_by(category="General").order_by(Pitch.posted.desc()).all()
+    # project = Pitch.query.filter_by(category="Project").order_by(Pitch.posted.desc()).all()
+    # advertisement = Pitch.query.filter_by(category="Advertisement").order_by(Pitch.posted.desc()).all()
+    # interview = Pitch.query.filter_by(category="Interview").order_by(Pitch.posted.desc()).all()
+    # pickuplines=Pitch.query.filter_by(category="Pickuplines").order_by(Pitch.posted.desc()).all()
+    # likes = Like.get_all_likes(pitch_id=Pitch.id)
+    # dislikes = Dislike.get_all_dislikes(pitch_id=Pitch.id)
+    title="One minute pitches"
+    return render_template('index.html', title = title)
+    
+
+    # return render_template('index.html', title = title, pitches = pitches, general = general, project = project, advertisement = advertisement, interview = interview, pickuplines=pickuplines, likes=likes, dislikes=dislikes)
+@main.route("/pitch/general")
+def pitch_general():
     general = Pitch.query.filter_by(category="General").order_by(Pitch.posted.desc()).all()
-    project = Pitch.query.filter_by(category="Project").order_by(Pitch.posted.desc()).all()
-    advertisement = Pitch.query.filter_by(category="Advertisement").order_by(Pitch.posted.desc()).all()
-    interview = Pitch.query.filter_by(category="Interview").order_by(Pitch.posted.desc()).all()
-    pickuplines=Pitch.query.filter_by(category="Pickuplines").order_by(Pitch.posted.desc()).all()
+    pitches = Pitch.query.all()
     likes = Like.get_all_likes(pitch_id=Pitch.id)
     dislikes = Dislike.get_all_dislikes(pitch_id=Pitch.id)
-    title="One minute pitches"
-    return render_template('index.html', title = title, pitches = pitches, general = general, project = project, advertisement = advertisement, interview = interview, pickuplines=pickuplines, likes=likes, dislikes=dislikes)
 
+    return render_template('general.html',likes=likes, dislikes=dislikes, pitches=pitches,general = general)
+
+@main.route("/pitch/project")
+def pitch_project():
+    pitches = Pitch.query.all()
+    likes = Like.get_all_likes(pitch_id=Pitch.id)
+    dislikes = Dislike.get_all_dislikes(pitch_id=Pitch.id)
+    project = Pitch.query.filter_by(category="Project").order_by(Pitch.posted.desc()).all()
+    return render_template('project.html',likes=likes, dislikes=dislikes, pitches=pitches,project = project)
+
+@main.route("/pitch/advertisement")
+def pitch_advertisement():
+    pitches = Pitch.query.all()
+    likes = Like.get_all_likes(pitch_id=Pitch.id)
+    dislikes = Dislike.get_all_dislikes(pitch_id=Pitch.id)
+    advertisement = Pitch.query.filter_by(category="Advertisement").order_by(Pitch.posted.desc()).all()
+    return render_template('advertisement.html',likes=likes, dislikes=dislikes, pitches=pitches,advertisement = advertisement)
+
+@main.route("/pitch/interview")
+def pitch_interview():
+    pitches = Pitch.query.all()
+    likes = Like.get_all_likes(pitch_id=Pitch.id)
+    dislikes = Dislike.get_all_dislikes(pitch_id=Pitch.id)
+    interview = Pitch.query.filter_by(category="Interview").order_by(Pitch.posted.desc()).all()
+    return render_template('interview.html',likes=likes, dislikes=dislikes, pitches=pitches,interview= interview)
+
+@main.route("/pitch/pickupline")
+def pitch_pickupline():
+    pitches = Pitch.query.all()
+    likes = Like.get_all_likes(pitch_id=Pitch.id)
+    dislikes = Dislike.get_all_dislikes(pitch_id=Pitch.id)
+    pickupline = Pitch.query.filter_by(category="Pickuplines").order_by(Pitch.posted.desc()).all()
+    return render_template('pickuplines.html',likes=likes, dislikes=dislikes, pitches=pitches,pickupline = pickupline)
 @main.route('/user/<uname>')
 def profile(uname):
     user = User.query.filter_by(username = uname).first()
@@ -120,7 +162,6 @@ def comment(pitch_id):
 
 
 @main.route('/pitch/<int:pitch_id>/like',methods = ['GET','POST'])
-@login_required
 def like(pitch_id):
     '''
     View like function that returns likes
@@ -132,16 +173,15 @@ def like(pitch_id):
 
 
     if Like.query.filter(Like.user_id==user.id,Like.pitch_id==pitch_id).first():
-        return  redirect(url_for('.index'))
+        return  redirect(url_for('main.index'))
 
-    new_like = Like(pitch_id=pitch_id, user = current_user)
+    new_like = Like(pitch_id=pitch_id, user_id = current_user.id)
     new_like.save_likes()
-    return redirect(url_for('.index'))
+    return redirect(url_for('main.index'))
 
 
 
 @main.route('/pitch/<int:pitch_id>/dislike',methods = ['GET','POST'])
-@login_required
 def dislike(pitch_id):
     '''
     View dislike function that returns dislikes
@@ -152,10 +192,44 @@ def dislike(pitch_id):
     pitch_dislikes = Dislike.query.filter_by(pitch_id=pitch_id)
 
     if Dislike.query.filter(Dislike.user_id==user.id,Dislike.pitch_id==pitch_id).first():
-        return redirect(url_for('.index'))
+        return redirect(url_for('main.index'))
 
-    new_dislike = Dislike(pitch_id=pitch_id, user = current_user)
+    new_dislike = Dislike(pitch_id=pitch_id, user_id = current_user.id)
     new_dislike.save_dislikes()
-    return redirect(url_for('.index'))
+    return redirect(url_for('main.index'))
 
     
+
+# @main.route('/pitch/<int:id>', methods = ['GET','POST'])
+# def pitch(id):
+#     pitch = Pitch.get_pitch(id)
+#     posted_date = pitch.posted.strftime('%b %d, %Y')
+
+#     if request.args.get("like"):
+#         pitch.likes = pitch.likes + 1
+
+#         db.session.add(pitch)
+#         db.session.commit()
+
+#         return redirect("/pitch/{pitch_id}".format(pitch_id=pitch.id))
+
+#     elif request.args.get("dislike"):
+#         pitch.dislikes = pitch.dislikes + 1
+
+#         db.session.add(pitch)
+#         db.session.commit()
+
+#         return redirect("/pitch/{pitch_id}".format(pitch_id=pitch.id))
+
+#     comment_form = CommentForm()
+#     if comment_form.validate_on_submit():
+#         comment = comment_form.text.data
+
+#         new_comment = Comment(comment = comment,user = current_user,pitch_id = pitch)
+
+#         new_comment.save_comment()
+
+
+#     comments = Comment.get_comments(pitch)
+
+#     return render_template("pitch.html", pitch = pitch, comment_form = comment_form, comments = comments, date = posted_date)
