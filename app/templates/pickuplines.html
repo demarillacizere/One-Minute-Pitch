@@ -1,20 +1,12 @@
 {% extends 'base.html'%}
 {% import 'macros.html' as macro%}
 {% import 'bootstrap/wtf.html' as wtf %}
-{%block styles%}
-    {{ super() }}
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-    <link href="https://fonts.googleapis.com/css?family=Ranga" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Cormorant+Upright" rel="stylesheet">
-    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
-{% endblock %}
 {% block content %}
-<div class='container'>
+<div class='container-fluid'>
   <button class="btn btn-outline-info"><a href="{{url_for('main.new_pitch')}}"><i class="fas fa-plus"></i>  Add your pitch</a></button></br><br>
 
 <div class='row'>
-  <div class='col-md-3'>
+  <div class='col-md-3 categories'>
     <div class='card'>
       <p><a href="{{url_for('main.pitch_general')}}">General</a></p><hr>
       <p><a href="{{url_for('main.pitch_interview')}}">Interview</a></p><hr>

@@ -1,6 +1,16 @@
 nav{
-    background-color:darkblue;
+    background-color:rgb(9, 9, 39);
+}
+nav a:hover{
+ color:yellow;
 }
 body{
-    background-color: rgb(165, 237, 247);
+    
+}
+.categories{
+    border-right: 1px solid;
+}
+.pitches{
+    background-color: rgb(176, 177, 199);
+    box-shadow: 3px 3px 5px rgb(85, 203, 207);
 }

@@ -7,19 +7,8 @@ from .. import db, photos
 
 @main.route('/')
 def index():
-    # pitches = Pitch.query.all()
-    # general = Pitch.query.filter_by(category="General").order_by(Pitch.posted.desc()).all()
-    # project = Pitch.query.filter_by(category="Project").order_by(Pitch.posted.desc()).all()
-    # advertisement = Pitch.query.filter_by(category="Advertisement").order_by(Pitch.posted.desc()).all()
-    # interview = Pitch.query.filter_by(category="Interview").order_by(Pitch.posted.desc()).all()
-    # pickuplines=Pitch.query.filter_by(category="Pickuplines").order_by(Pitch.posted.desc()).all()
-    # likes = Like.get_all_likes(pitch_id=Pitch.id)
-    # dislikes = Dislike.get_all_dislikes(pitch_id=Pitch.id)
     title="One minute pitches"
     return render_template('index.html', title = title)
-    
-
-    # return render_template('index.html', title = title, pitches = pitches, general = general, project = project, advertisement = advertisement, interview = interview, pickuplines=pickuplines, likes=likes, dislikes=dislikes)
 @main.route("/pitch/general")
 def pitch_general():
     general = Pitch.query.filter_by(category="General").order_by(Pitch.posted.desc()).all()
@@ -173,7 +162,7 @@ def like(pitch_id):
 
 
     if Like.query.filter(Like.user_id==user.id,Like.pitch_id==pitch_id).first():
-        return  redirect(url_for('main.index'))
+        return  redirect(url_for('.index'))
 
     new_like = Like(pitch_id=pitch_id, user_id = current_user.id)
     new_like.save_likes()
@@ -196,40 +185,8 @@ def dislike(pitch_id):
 
     new_dislike = Dislike(pitch_id=pitch_id, user_id = current_user.id)
     new_dislike.save_dislikes()
-    return redirect(url_for('main.index'))
+    return redirect(url_for('main.index')) 
 
-    
-
-# @main.route('/pitch/<int:id>', methods = ['GET','POST'])
-# def pitch(id):
-#     pitch = Pitch.get_pitch(id)
-#     posted_date = pitch.posted.strftime('%b %d, %Y')
-
-#     if request.args.get("like"):
-#         pitch.likes = pitch.likes + 1
-
-#         db.session.add(pitch)
-#         db.session.commit()
-
-#         return redirect("/pitch/{pitch_id}".format(pitch_id=pitch.id))
-
-#     elif request.args.get("dislike"):
-#         pitch.dislikes = pitch.dislikes + 1
-
-#         db.session.add(pitch)
-#         db.session.commit()
-
-#         return redirect("/pitch/{pitch_id}".format(pitch_id=pitch.id))
-
-#     comment_form = CommentForm()
-#     if comment_form.validate_on_submit():
-#         comment = comment_form.text.data
-
-#         new_comment = Comment(comment = comment,user = current_user,pitch_id = pitch)
-
-#         new_comment.save_comment()
-
-
-#     comments = Comment.get_comments(pitch)
-
-#     return render_template("pitch.html", pitch = pitch, comment_form = comment_form, comments = comments, date = posted_date)
+@main.route("/static/css")
+def static_dir(css):
+    return send_from_directory("static", css)

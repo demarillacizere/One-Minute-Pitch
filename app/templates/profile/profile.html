@@ -18,7 +18,7 @@
         {% if user == current_user %}
     <form  action="{{url_for('main.update_pic',uname=user.username)}}" method="post" enctype = "multipart/form-data">
 
-      <input class='form-control' type="file"  name="photo" class="form-control" required>
+      <input class='form-control' type="file"  name="photo" class="form-control" required><br>
       <button class='btn btn-info form-control' type="submit">Submit</button><br><br>
       <button class='btn btn-success form-control'><a href="{{url_for('main.update_profile',uname=user.username)}}">Edit profile</a></button>
     </form>
@@ -38,29 +38,28 @@
       </tr>
       <tr>
         <th scope="row">Pitches</th>
-        <td>{{pitches_no.count(user.id)}}</td>
+        <td>{{user.pitches.count()}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Comments</th>
+        <td>{{user.comments.count()}}</td>
       </tr>
       <tr>
         <th scope="row">Likes</th>
-        <td>{{likes_no}}</td>
+        <td>{{likes_no.len}}</td>
       </tr>
       <tr>
         <th scope="row">Dislikes</th>
-        <td>{{likes_no}}</td>
-      </tr>
-     
-      <tr>
-        <th scope="row">Comments</th>
-        <td>{{comments_no.count(comment)}}</td>
+        <td>{{user.comments.count()}}</td>
       </tr>
       </tbody>
-    </table><hr>
+    </table>
     <div>
-      <h3>Pitches</h3>
-      {% if pitches_no %}
-		{% for pitch in pitches_no %}
+      <h3 class='text-center'><strong>My Pitches</strong></h3>
+      {% if user.pitches %}
+		{% for pitch in user.pitches %}
 		<div class="col-md-4">
-			<div class="card">
+			<div class="card pitches">
 				<div class="card-body">
 					<h4 class="card-title">{{pitch.title}}</h4><hr>
 					<p class="card-text">{{pitch.content}}</p>
@@ -75,7 +74,7 @@
     </div>
 		{% endfor %}
 		{% else %}
-		<a href="{{url_for('main.new_pitch')}}">Add your first pitch</a>
+		<button class="btn btn-outline-info"><a href="{{url_for('main.new_pitch')}}"><i class="fas fa-plus"></i>  Add your first pitch</a></button></br><br>
 		{% endif %}
     </div>
   </div>

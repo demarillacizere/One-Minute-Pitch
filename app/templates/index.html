@@ -2,21 +2,13 @@
 {% import 'macros.html' as macro%}
 {% import 'bootstrap/wtf.html' as wtf %}
 
-{%block styles%}
-    {{ super() }}
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-    <link href="https://fonts.googleapis.com/css?family=Ranga" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Cormorant+Upright" rel="stylesheet">
-    <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
-{% endblock %}
 {% block content %}
-<div class='container'>
+<div class='container-fluid'>
   <button class="btn btn-outline-info"><a href="{{url_for('main.new_pitch')}}"><i class="fas fa-plus"></i>  Add your pitch</a></button></br><br>
 
 <div class='row'>
   <div class='col-md-3'>
-    <div class='card' style='border-color:solid 1px '>
+    <div class='card categories'>
       <p><a href="{{url_for('main.pitch_general')}}">General</a></p><hr>
       <p><a href="{{url_for('main.pitch_interview')}}">Interview</a></p><hr>
       <p><a href="{{url_for('main.pitch_advertisement')}}">Advertisement</a></p><hr>
@@ -32,74 +24,3 @@
   </div>
 </div>  
 {% endblock %}  
-<div class="container mb-5">
-    <h3 class="text-center p-4 text-uppercase"><strong>Created Pitches</strong></h3>
-<div id="accordion" class="bg-info">
-    <div class="card">
-      <div class="card-header" id="headingOne">
-        <h5 class="mb-0">
-          <button class="btn btn-link text-info" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-            General Pitches
-          </button>
-        </h5>
-      </div>
-      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-        <div class="card-body bg-info">
-            {{ macro.displayPitches(general) }} </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header" id="headingTwo">
-        <h5 class="mb-0">
-          <button class="btn btn-link collapsed text-info" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-            Interview Pitches
-          </button>
-        </h5>
-      </div>
-      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-        <div class="card-body bg-info">
-            {{ macro.displayPitches(interview)}} </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header" id="headingThree">
-        <h5 class="mb-0">
-          <button class="btn btn-link collapsed text-info" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-            Advertisement Pitches
-          </button>
-        </h5>
-      </div>
-      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-        <div class="card-body bg-info">
-            {{ macro.displayPitches(advertisement) }} </div>
-      </div>
-    </div>
-    <div class="card">
-        <div class="card-header" id="headingFour">
-          <h5 class="mb-0">
-            <button class="btn btn-link collapsed text-info" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
-                Project Pitches
-            </button>
-          </h5>
-        </div>
-        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
-          <div class="card-body bg-info">
-            {{ macro.displayPitches(project) }} </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header" id="headingFive">
-          <h5 class="mb-0">
-            <button class="btn btn-link collapsed text-info" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
-                pickup Lines
-            </button>
-          </h5>
-        </div>
-        <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
-          <div class="card-body bg-info">
-            {{ macro.displayPitches(pickuplines) }} </div>
-        </div>
-      </div>
-  </div>
-  </div>
-</div>
