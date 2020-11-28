@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+<!-- Style block -->
+{% block styles %}
+    {{ super() }}
+    <link rel="icon" type="image/png" href=" {{url_for('static', filename = 'images/icon.png')}} ">
+{% endblock %}
+
+{% block content %}
+<div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">Pitch</div>
+            <div class="panel-body">
+                <p>{{ pitch.pitch }}</p>
+                <p><strong>by: {{ pitch.user.username }}</strong></p>
+            </div>
+        </div>
+        <div>
+            <h1>Comments</h1>
+            {% for comment in comments %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                <p>Comment By:{{ comment.user.username }}</p>
+                <p>{{ comment.comment }}</p>
+            </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-md-4">
+        
+        <form action="/pitchdiscussion/{{pitch.id}}/comment" method="post">
+           <div class="form-group">
+               <input type="text" name="comment" class="form-control">
+               <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+            </div> 
+        </form>
+    </div>
+</div>
+{% endblock %}

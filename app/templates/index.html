@@ -1,3 +1,7 @@
 {% extends 'base.html'%}
 {% import 'macros.html' as macro%}
-<h1>Welcome!</h1>
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block content %}
+<a href="{{url_for('main.new_pitch')}}">Add your pitch</a>
+{% endblock %}
