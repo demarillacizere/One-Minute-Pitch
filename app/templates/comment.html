@@ -1,10 +1,5 @@
 {% extends 'base.html' %}
 {% import 'bootstrap/wtf.html' as wtf %}
-<!-- Style block -->
-{% block styles %}
-    {{ super() }}
-    <link rel="icon" type="image/png" href=" {{url_for('static', filename = 'images/icon.png')}} ">
-{% endblock %}
 
 {% block content %}
 <div>
@@ -12,8 +7,11 @@
         <div class="panel panel-default">
             <div class="panel-heading">Pitch</div>
             <div class="panel-body">
-                <p>{{ pitch.pitch }}</p>
+                <p>{{ pitch.content }}</p>
                 <p><strong>by: {{ pitch.user.username }}</strong></p>
+            </div>
+            <div class="card p-5 bg-info">
+                {{wtf.quick_form(comment_form)}}
             </div>
         </div>
         <div>
@@ -28,14 +26,6 @@
             {% endfor %}
         </div>
     </div>
-    <div class="col-md-4">
-        
-        <form action="/pitchdiscussion/{{pitch.id}}/comment" method="post">
-           <div class="form-group">
-               <input type="text" name="comment" class="form-control">
-               <button type="submit" class="btn btn-primary btn-sm">Submit</button>
-            </div> 
-        </form>
     </div>
 </div>
 {% endblock %}

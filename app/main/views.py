@@ -7,17 +7,16 @@ from .. import db, photos
 
 @main.route('/')
 def index():
-    form = PitchForm()
-    general = Pitch.query.filter_by(category="general").order_by(Pitch.posted.desc()).all()
-    project = Pitch.query.filter_by(category="project").order_by(Pitch.posted.desc()).all()
-    advertisement = Pitch.query.filter_by(category="advertisement").order_by(Pitch.posted.desc()).all()
-    sale = Pitch.query.filter_by(category="sale").order_by(Pitch.posted.desc()).all()
-
-    pitch = Pitch.query.filter_by().first()
+    pitches = Pitch.query.all()
+    general = Pitch.query.filter_by(category="General").order_by(Pitch.posted.desc()).all()
+    project = Pitch.query.filter_by(category="Project").order_by(Pitch.posted.desc()).all()
+    advertisement = Pitch.query.filter_by(category="Advertisement").order_by(Pitch.posted.desc()).all()
+    interview = Pitch.query.filter_by(category="Interview").order_by(Pitch.posted.desc()).all()
+    pickuplines=Pitch.query.filter_by(category="Pickuplines").order_by(Pitch.posted.desc()).all()
     likes = Like.get_all_likes(pitch_id=Pitch.id)
     dislikes = Dislike.get_all_dislikes(pitch_id=Pitch.id)
     title="One minute pitches"
-    return render_template('index.html', pitchform=form, title = title, pitch = pitch, general = general, project = project, advertisement = advertisement, sale = sale, likes=likes, dislikes=dislikes)
+    return render_template('index.html', title = title, pitches = pitches, general = general, project = project, advertisement = advertisement, interview = interview, pickuplines=pickuplines, likes=likes, dislikes=dislikes)
 
 @main.route('/user/<uname>')
 def profile(uname):
@@ -73,6 +72,7 @@ def new_pitch():
     A function that saves the pitch added
     '''
     pitch_form = PitchForm()
+    likes = Like.query.filter_by(pitch_id=Pitch.id)
 
     if pitch_form.validate_on_submit():
         title = pitch_form.title.data
@@ -80,7 +80,7 @@ def new_pitch():
         category = pitch_form.category.data
         title = pitch_form.title.data
 
-        new_pitch = Pitch(title=title, content=body, category = category, user = current_user,likes=0,dislikes=0)
+        new_pitch = Pitch(title=title, content=body, category = category, user = current_user)
         new_pitch.save_pitch()
 
         return redirect(url_for('main.index'))
@@ -103,17 +103,17 @@ def comment(pitch_id):
         abort(404)
 
     if comment_form.validate_on_submit():
-        comment_body = comment_form.comment.data
+        comment = comment_form.comment.data
 
-        new_comment = Comment(comment=comment_body, pitch_id = pitch_id, user = current_user)
+        new_comment = Comment(comment=comment, pitch_id = pitch_id, user = current_user)
         new_comment.save_comment()
 
         return redirect(url_for('.comment', pitch_id=pitch_id))
 
     comments = Comment.query.filter_by(pitch_id=pitch_id).all()
-    title = 'New Comment | One Min Pitch'
+    title = 'Comments | One Min Pitch'
 
-    return render_template('comment.html', title = title, pitch=pitch ,comment_form = comment_form, comment = comments )
+    return render_template('comment.html', title = title, pitch=pitch ,comment_form = comment_form, comments = comments )
 
 
 
@@ -158,21 +158,4 @@ def dislike(pitch_id):
     new_dislike.save_dislikes()
     return redirect(url_for('.index'))
 
-
-
-@main.route('/user/category/advertisement', methods=['GET', 'POST'])
-@login_required
-def advertisement():
-    form = AdvertisementForm()
-    title = 'Post a pitch'
-    if form.validate_on_submit():
-        post = form.post.data
-        body = form.body.data
-        new_advertisement = Advertisement(post=post, user=current_user, body=body)
-        new_advertisement.save_advertisement()
-        return redirect(url_for('.advertisements'))
-    return render_template("advertisement.html", advertisement_form=form, title=title)
-
-@main.route('/')   
-def pitches(category):
     

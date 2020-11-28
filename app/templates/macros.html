@@ -1,0 +1,31 @@
+
+{% macro displayPitches(pitches) %}
+<div class="container-fluid">
+	<div class="row">
+		{% if pitches %}
+		{% for pitch in pitches %}
+		<div class="col-md-4">
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">{{pitch.title}}</h5>
+					<p class="card-text">{{pitch.content}}</p>
+					<p class="card-text text-muted">by {{pitch.user.username}}</p>
+					<div>
+						<span class="mr-2"><i class="fa fa-comment"></i>{{pitch.comments.count()}}</span>
+						<span class="mr-2"><a href="{{url_for('main.like',pitch_id = pitch.id)}}"><i
+									class="fa fa-thumbs-up"
+									style="color: black;"></i></a>{{pitch.likes.count()}}</span>
+						<span><a href="{{url_for('main.dislike',pitch_id = pitch.id)}}"> <i class="fa fa-thumbs-down"
+									style="color: black;"></i></a>{{pitch.likes.count()}}</span>
+					</div>
+					<a href="{{url_for('main.comment',pitch_id = pitch.id)}}" class="btn btn-info">Comment</a>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+		{% else %}
+		<a href="{{url_for('main.new_pitch')}}">Add your pitch</a>
+		{% endif %}
+	</div>
+</div>
+{% endmacro %}
