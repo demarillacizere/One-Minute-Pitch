@@ -2,17 +2,19 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block content %}
-<div>
+<div class='container comment'>
     <div style="margin:0 auto"class="col-md-8">
             <div class="card">{{pitch.title}}</div><br>
-            <div class="card-body">
+            <div class="panel pitchcomment">
                 <p>{{ pitch.content }}</p>
                 <p><strong>by: {{ pitch.user.username }}</strong></p>
             </div>
             <div>
                 {% for comment in comments %}
-                    <span>{{ comment.comment }}</span><br>
-                    <span><strong>By:{{ comment.user.username }}</strong> &NonBreakingSpace;&nbsp;{{comment.posted.strftime('%b %d, %Y')}}</span><br><br>
+                <div class='panel'>
+                    <span><strong>{{ comment.user.username }}</strong></span><br>
+                    <span>{{comment.comment}}&NonBreakingSpace;&nbsp;{{comment.posted.strftime('%b %d, %Y')}}</span><br><br>
+                </div>
                 {% endfor %}
             </div>
             <div>
@@ -22,4 +24,5 @@
     </div>
     </div>
 </div>
+<footer class='footer'>Copyright 2020 | PitchIt</footer>
 {% endblock %}

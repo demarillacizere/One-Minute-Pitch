@@ -1,16 +1,30 @@
 nav{
-    background-color:rgb(9, 9, 39);
+    background-color:rgb(35, 129, 206);
+    color:white;
+}
+nav li,nav ul,nav a:hover{
+    background-color: none;
 }
 nav a:hover{
  color:yellow;
-}
-body{
-    
 }
 .categories{
     border-right: 1px solid;
 }
 .pitches{
-    background-color: rgb(176, 177, 199);
-    box-shadow: 3px 3px 5px rgb(85, 203, 207);
+    padding:7px;
+    background-color: rgb(207, 209, 233);
+    box-shadow: 1px 1px 5px rgb(118, 200, 233);
 }
+.pitchcomment{
+    background-color: rgb(207, 209, 233);
+}
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color:rgb(35, 129, 206);
+    color: white;
+    text-align: center;
+  }

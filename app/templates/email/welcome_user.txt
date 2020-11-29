@@ -1,0 +1,3 @@
+Hello {{user.username}}
+Welcome to PitchIt
+We have just seen you have signed up for our application and want to welcome you to the family. Let's pitch it together.We hope that ww will help you learn how to use your one minute wisely and impress your audience with your incredible One Minute Pitch.

@@ -3,7 +3,7 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 {% block content %}
 <div class='container-fluid'>
-  <button class="btn btn-outline-info"><a href="{{url_for('main.new_pitch')}}"><i class="fas fa-plus"></i>  Add your pitch</a></button></br><br>
+  <button class="btn btn-outline-info"><a href="{{url_for('main.new_pitch')}}"><strong><i class="fas fa-plus"></i>  Add your pitch</strong></a></button></br><br>
 
 <div class='row'>
   <div class='col-md-3 categories'>
@@ -20,4 +20,5 @@
     {{ macro.displayPitches(pickupline) }}
   </div>
 </div>
+<footer class='footer'>Copyright 2020 | PitchIt</footer>
 {% endblock %}
