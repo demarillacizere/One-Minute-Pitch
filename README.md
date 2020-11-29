@@ -2,7 +2,7 @@
 
 # AUTHOR
 
-[Demarillac Izere] 
+**[Demarillac Izere](https://github.com/demarillacizere)**
 
 # DESCRIPTION
 
