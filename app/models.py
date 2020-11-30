@@ -98,22 +98,6 @@ class Like (db.Model):
         db.session.add(self)
         db.session.commit()
 
-    def add_likes(cls,id):
-        like_pitch = Like(user = current_user, pitch_id=id)
-        like_pitch.save_likes()
-
-    @classmethod
-    def get_likes(cls,id):
-        like = Like.query.filter_by(pitch_id=id).all()
-        return like
-
-
-    @classmethod
-    def get_all_likes(cls,pitch_id):
-        likes = Like.query.order_by(text('-id')).all()
-        return likes
-
-
     def __repr__(self):
         return f'{self.user_id}:{self.pitch_id}'
 
@@ -130,21 +114,6 @@ class Dislike (db.Model):
     def save_dislikes(self):
         db.session.add(self)
         db.session.commit()
-
-    def add_dislikes(cls,id):
-        dislike_pitch = Dislike(user = current_user, pitch_id=id)
-        dislike_pitch.save_dislikes()
-
-    @classmethod
-    def get_dislikes(cls,id):
-        dislike = Dislike.query.filter_by(pitch_id=id).all()
-        return dislike
-
-
-    @classmethod
-    def get_all_dislikes(cls,pitch_id):
-        dislikes = Dislike.query.order_by(text('-id')).all()
-        return dislikes
 
 
     def __repr__(self):

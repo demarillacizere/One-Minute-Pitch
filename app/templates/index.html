@@ -7,7 +7,7 @@
   <button class="btn btn-outline-info"><a href="{{url_for('main.new_pitch')}}"><strong><i class="fas fa-plus"></i>  Add your pitch</strong></a></button></br><br>
 
 <div class='row'>
-  <div class='col-md-3'>
+  <div class='col-md-3'style='border-right:solid 1px lightgrey;'>
     <div class='card categories'>
       <p><a href="{{url_for('main.pitch_general')}}">General</a></p><hr>
       <p><a href="{{url_for('main.pitch_interview')}}">Interview</a></p><hr>
@@ -24,5 +24,5 @@
     <p>Our collections is in different categories. Add your pitch and read other user's brilliant pitches. Don't forget to leave a feedback !</p><br>
   </div>
 </div> 
-<footer class='footer'>Copyright 2020 | PitchIt</footer> 
+<footer class='footer' style='position:fixed;left:0;bottom:0;background-color:rgb(15, 40, 61);padding:15px;text-align:center;width:100%;color:white;'>Copyright 2020 | PitchIt</footer> 
 {% endblock %}  

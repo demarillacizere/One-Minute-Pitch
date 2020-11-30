@@ -2,10 +2,9 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block content %}
-<div class='container comment'>
+<div class='container comment' style='margin:0 auto;'>
     <div style="margin:0 auto"class="col-md-8">
-            <div class="card">{{pitch.title}}</div><br>
-            <div class="panel pitchcomment">
+            <div class="panel" style="background-color: rgb(238, 239, 245); padding:10px;box-shadow:1px 1px 5px rgb(238, 239, 245);">
                 <p>{{ pitch.content }}</p>
                 <p><strong>by: {{ pitch.user.username }}</strong></p>
             </div>

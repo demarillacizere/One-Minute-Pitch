@@ -13,56 +13,42 @@ def index():
 def pitch_general():
     general = Pitch.query.filter_by(category="General").order_by(Pitch.posted.desc()).all()
     pitches = Pitch.query.all()
-    likes = Like.get_all_likes(pitch_id=Pitch.id)
-    dislikes = Dislike.get_all_dislikes(pitch_id=Pitch.id)
 
-    return render_template('general.html',likes=likes, dislikes=dislikes, pitches=pitches,general = general)
+    return render_template('general.html', pitches=pitches,general = general)
 
 @main.route("/pitch/project")
 def pitch_project():
     pitches = Pitch.query.all()
-    likes = Like.get_all_likes(pitch_id=Pitch.id)
-    dislikes = Dislike.get_all_dislikes(pitch_id=Pitch.id)
     project = Pitch.query.filter_by(category="Project").order_by(Pitch.posted.desc()).all()
-    return render_template('project.html',likes=likes, dislikes=dislikes, pitches=pitches,project = project)
+    return render_template('project.html', pitches=pitches,project = project)
 
 @main.route("/pitch/advertisement")
 def pitch_advertisement():
     pitches = Pitch.query.all()
-    likes = Like.get_all_likes(pitch_id=Pitch.id)
-    dislikes = Dislike.get_all_dislikes(pitch_id=Pitch.id)
     advertisement = Pitch.query.filter_by(category="Advertisement").order_by(Pitch.posted.desc()).all()
-    return render_template('advertisement.html',likes=likes, dislikes=dislikes, pitches=pitches,advertisement = advertisement)
+    return render_template('advertisement.html', pitches=pitches,advertisement = advertisement)
 
 @main.route("/pitch/interview")
 def pitch_interview():
     pitches = Pitch.query.all()
-    likes = Like.get_all_likes(pitch_id=Pitch.id)
-    dislikes = Dislike.get_all_dislikes(pitch_id=Pitch.id)
     interview = Pitch.query.filter_by(category="Interview").order_by(Pitch.posted.desc()).all()
-    return render_template('interview.html',likes=likes, dislikes=dislikes, pitches=pitches,interview= interview)
+    return render_template('interview.html', pitches=pitches,interview= interview)
 
 @main.route("/pitch/pickupline")
 def pitch_pickupline():
     pitches = Pitch.query.all()
-    likes = Like.get_all_likes(pitch_id=Pitch.id)
-    dislikes = Dislike.get_all_dislikes(pitch_id=Pitch.id)
     pickupline = Pitch.query.filter_by(category="Pickuplines").order_by(Pitch.posted.desc()).all()
-    return render_template('pickuplines.html',likes=likes, dislikes=dislikes, pitches=pitches,pickupline = pickupline)
+    return render_template('pickuplines.html',pitches=pitches,pickupline = pickupline)
+
 @main.route('/user/<uname>')
 def profile(uname):
     user = User.query.filter_by(username = uname).first()
     title = f"{uname.capitalize()}"
 
-    get_pitches = Pitch.query.filter_by(user_id = User.id).all()
-    get_comments = Comment.query.filter_by(user_id = User.id).all()
-    get_likes = Like.query.filter_by(user_id = User.id).all()
-    get_dislikes = Dislike.query.filter_by(user_id = User.id).all()
-
     if user is None:
         abort (404) 
 
-    return render_template("profile/profile.html", user = user, title=title, pitches_no = get_pitches, comments_no = get_comments, likes_no = get_likes, dislikes_no = get_dislikes)
+    return render_template("profile/profile.html", user = user, title=title)
 
 @main.route('/user/<uname>/update',methods = ['GET','POST'])
 @login_required
@@ -103,7 +89,6 @@ def new_pitch():
     A function that saves the pitch added
     '''
     pitch_form = PitchForm()
-    likes = Like.query.filter_by(pitch_id=Pitch.id)
 
     if pitch_form.validate_on_submit():
         title = pitch_form.title.data
@@ -156,15 +141,14 @@ def like(pitch_id):
     View like function that returns likes
     '''
     pitch = Pitch.query.get(pitch_id)
-    user = current_user
 
     likes = Like.query.filter_by(pitch_id=pitch_id)
 
 
-    if Like.query.filter(Like.user_id==user.id,Like.pitch_id==pitch_id).first():
+    if Like.query.filter(Like.pitch_id==pitch_id).first():
         return  redirect(url_for('.index'))
 
-    new_like = Like(pitch_id=pitch_id, user_id = current_user.id)
+    new_like = Like(pitch_id=pitch_id)
     new_like.save_likes()
     return redirect(url_for('main.index'))
 
@@ -176,17 +160,12 @@ def dislike(pitch_id):
     View dislike function that returns dislikes
     '''
     pitch = Pitch.query.get(pitch_id)
-    user = current_user
 
     pitch_dislikes = Dislike.query.filter_by(pitch_id=pitch_id)
 
-    if Dislike.query.filter(Dislike.user_id==user.id,Dislike.pitch_id==pitch_id).first():
+    if Dislike.query.filter(Dislike.pitch_id==pitch_id).first():
         return redirect(url_for('main.index'))
 
-    new_dislike = Dislike(pitch_id=pitch_id, user_id = current_user.id)
+    new_dislike = Dislike(pitch_id=pitch_id)
     new_dislike.save_dislikes()
     return redirect(url_for('main.index')) 
-
-@main.route("/static/css")
-def static_dir(css):
-    return send_from_directory("static", css)
