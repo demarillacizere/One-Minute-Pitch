@@ -11,7 +11,7 @@ class PitchTest(unittest.TestCase):
         '''
         Set up method that will run before every Test
         '''
-        self.new_pitch = Pitch('Hello world','My first webpage','Projects')
+        self.new_pitch = Pitch(title='Hello world',content='My first webpage',category='Projects')
 
     def test_instance(self):
         self.assertTrue(isinstance(self.new_pitch,Pitch))
